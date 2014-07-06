@@ -4,9 +4,9 @@
 *	library found here: http://nimishprabhu.com/top-10-best-usage-examples-php-simple-html-dom-parser.html
 */
 
-$words = array();
-
 include('simple_html_dom.php');
+
+$words = array();
 
 // load page with word list
 $html = file_get_html('http://www.oxfordlearnersdictionaries.com/us/wordlist/english/academic/sublist01/');	
