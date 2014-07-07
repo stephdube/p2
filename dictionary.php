@@ -8,31 +8,16 @@ include('simple_html_dom.php');
 
 $words = array();
 
-// load page with word list
-$html = file_get_html('http://www.oxfordlearnersdictionaries.com/us/wordlist/english/academic/sublist01/');	
-
-// parse page searching for list items and pull out the plain words
-foreach($html->find('li') as $li) {
-	// capitalized or non-alpha characters indicate undesired list items (specific to the website scraped here)
- 	if (ctype_lower($li->plaintext)){
- 		$words[] = $li->plaintext;
- 	}
-}
-
-// repeat with second page
-$html = file_get_html('http://www.oxfordlearnersdictionaries.com/us/wordlist/english/academic/sublist01/?page=2');	
-foreach($html->find('li') as $li) {
- 	if (ctype_lower($li->plaintext)){
- 		$words[] = $li->plaintext;
- 	}
-}
-
-// repeat with third page
-$html = file_get_html('http://www.oxfordlearnersdictionaries.com/us/wordlist/english/academic/sublist01/?page=3');	
-foreach($html->find('li') as $li) {
- 	if (ctype_lower($li->plaintext)){
- 		$words[] = $li->plaintext;
- 	}
+for ($i=1;$i<4;$i++){
+	// load pages 1-3 of site with word list
+	$html = file_get_html('http://www.oxfordlearnersdictionaries.com/us/wordlist/english/academic/sublist01/?page='.$i);	
+	// parse page searching for list items and pull out the plain words
+	foreach($html->find('li') as $li) {
+		// capitalized or non-alpha characters indicate undesired list items (specific to the website scraped here)
+	 	if (ctype_lower($li->plaintext)){
+	 		$words[] = $li->plaintext;
+	 	}
+	}
 }
 
 // try a different site (weeding out non-lowercase-chars still works)
@@ -43,7 +28,7 @@ foreach($html->find('li') as $li) {
  	}
 }
 
-// one more
+// one more word-source
 $html = file_get_html('http://www.onelook.com/wotd-archive.shtml');	
 foreach($html->find('a') as $a) {
 	if (ctype_lower($a->innertext)){
